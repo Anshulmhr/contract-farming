@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agriculture Inventory System</title>
+    <style>
+        /* General Styling */
+        body {
+            font-family: 'Arial', sans-serif;   
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        /* Container */
+        .container {
+            max-width: 1000px;
+            background: rgba(255, 255, 255, 0.9);
+            margin: 25px auto;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease-in-out;
+            border: 2px solid #4CAF50;
+            height: auto;
+        }
+        .container:hover {
+            transform: scale(1.02);
+        }
+        h2 {
+            color: #2E7D32;
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px #00000033;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #8BC34A;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f1f8e9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Agriculture Inventory System</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Crop Name</th>
+                    <th>Price (per Quintal)</th>
+                    <th>Quantity</th>
+                    <th>Fertilizers</th>
+                    <th>Grade</th>
+                    <th>Farmer ID</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for crop in crops %}
+                <tr>
+                    <td>{{ crop.id }}</td>
+                    <td>{{ crop.crop_name }}</td>
+                    <td>{{ crop.price }}</td>
+                    <td>{{ crop.quantity }}</td>
+                    <td>{{ crop.fertilizers }}</td>
+                    <td>{{ crop.grade }}</td>
+                    <td>{{ crop.farmer_id }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="7">No crops available.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmer Dashboard</title>
+    <style>
+        body {
+            font-family: "Georgia", serif;
+            margin: 0;
+            padding: 0;
+            background-image: url("stock4.jpg");
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+            color: #333;
+        }
+        .container {
+            width: 80%;
+            margin: 30px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+        }
+        nav {
+            background: #03670d;
+            padding: 15px;
+            text-align: center;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 15px;
+            font-weight: bold;
+        }
+        nav a:hover {
+            background: #2d9b25;
+            border-radius: 5px;
+        }
+        .profile-container {
+            display: flex;
+            align-items: center;
+            background: #f4f4f4;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .profile {
+            text-align: left;
+            flex: 1;
+        }
+        .profile img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-left: 15px;
+        }
+        input, button {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            background: #28a745;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover {
+            background: #1e7e34;
+        }
+        .list-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+        .list {
+            width: 48%;
+            padding: 15px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="{{ url_for('inventory') }}">Inventory</a>
+        <a href="{{ url_for('search') }}">Search</a>
+        <a href="{{ url_for('Deals') }}">Deals</a>
+        {% if session.farmer_id %}
+        <a href="{{ url_for('logout') }}">Logout</a>
+        {% endif %}
+
+    </nav>   
+    <div class="container"> 
+        <marquee behavior="scroll" direction="left" scrollamount="10">
+            <h3 style="color: green;">Welcome, Farmer!</h1>
+        </marquee>
+    </div>
+    <h2>Sell Your Crop</h2>
+    <form id="cropForm">
+        <input type="text" id="crop" placeholder="Enter Crop Name" required>
+        <input type="number" id="price" placeholder="Enter Price per Quintal" required>
+        <input type="number" id="quantity" placeholder="Enter Quantity" required>
+        <input type="text" id="fertilizers" placeholder="Fertilizers Used" required>
+        <input type="text" id="grade" placeholder="Enter the Crop Grade" required>
+        <button type="submit">Add Crop</button>
+    </form>
+  
+    <div class="list-container">
+        <div class="list">
+            <h3>Your Listed Crops</h3>
+            <ul id="cropList"></ul>
+        </div>
+        <div class="list">
+            <h3>Buyer Purchases</h3>
+            <ul>
+                <li>Wheat - 10 Quintals (Buyer: Aman Traders)</li>
+                <li>Rice - 5 Quintals (Buyer: GreenMart)</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+            document.getElementById("cropForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      addCrop();
+    });
+
+    function addCrop() {
+      let cropName = document.getElementById("crop").value;
+      let price = document.getElementById("price").value;
+      let quantity = document.getElementById("quantity").value;
+      let fertilizers = document.getElementById("fertilizers").value;
+      let grade = document.getElementById("grade").value;
+
+      if (cropName && price && quantity && fertilizers && grade) {
+        fetch("/add_crop", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            crop_name: cropName,
+            price: price,
+            quantity: quantity,
+            fertilizers: fertilizers,
+            grade: grade
+          })
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            alert("Crop added successfully!");
+            document.getElementById("cropForm").reset();
+            // Optionally, update the crop list dynamically here.
+          } else {
+            alert("Error adding crop: " + data.error);
+          }
+        })
+        .catch(error => console.error("Error:", error));
+      } else {
+        alert("Please fill all fields");
+      }
+    }
+    </script>
+</body>
+</html>

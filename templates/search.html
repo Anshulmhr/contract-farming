@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search with Filters</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        /* Navigation Bar Styling */
+        .navbar {
+            background-color: #0056b3;
+            padding: 15px 0;
+            text-align: center;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            padding: 14px 20px;
+            font-size: 18px;
+            font-weight: bold;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+        .navbar a:hover {
+            background-color: #003d7a;
+            border-radius: 5px;
+            transform: scale(1.1);
+        }
+        
+        .search-container {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background: white;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            width: 60%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .filters {
+            margin: 10px;
+        }
+        input, select {
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #007BFF;
+            border-radius: 5px;
+            outline: none;
+            width: 200px;
+            transition: 0.3s;
+        }
+        input:focus, select:focus {
+            border-color: #0056b3;
+        }
+        .table-content {
+            width: 80%;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 2px solid #ddd;
+        }
+        th {
+            background-color: #007BFF;
+            color: white;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="homepage.html">Home</a>
+        <a href="#">Search</a>
+        <a href="{{ url_for('Deals') }}">Deals</a>
+        {% if session.farmer_id %}
+        <a href="{{ url_for('logout') }}">Logout</a>
+        {% endif %}
+    </div>
+    <div class="search-container">
+        <input type="text" id="search-input" placeholder="Search..." onkeyup="filterresult()">
+        <select id="category-filter" class="filters" onchange="filterresult()">
+            <option value="all">All Categories</option>
+            <option value="crops">Crops</option>
+            <option value="fertilisers">Fertilisers</option>
+            <option value="seeds">Seeds</option>
+        </select>
+    </div>
+    <div class="table-content">
+        <table>
+            <tr>
+                <th>Buyer</th>
+                <th>Crop</th>
+                <th>Quantity</th>
+                <th>Price</th>
+            </tr>
+            <tr>
+                <td>Aman Traders</td>   
+                <td>Wheat</td>
+                <td>15 Quintals</td>
+                <td>₹700000</td>
+            </tr>
+            <tr>
+                <td>Ravi Traders</td>   
+                <td>Wheat</td>
+                <td>5 Quintals</td>
+                <td>₹30000</td>
+            </tr>
+            <tr>
+                <td>Mohan Traders</td>   
+                <td>Rice</td>
+                <td>8 Quintals</td>
+                <td>₹60000</td>
+            </tr>
+            <tr>
+                <td>Rohan Traders</td>   
+                <td>Rice</td>
+                <td>10 Quintals</td>
+                <td>₹80000</td>
+            </tr>
+            <tr>
+                <td>Sumit Traders</td>   
+                <td>Rabi</td>
+                <td>20 Quintals</td>
+                <td>₹120000</td>
+            </tr>
+            <tr>
+                <td>Amit Traders</td>   
+                <td>Rice</td>
+                <td>5 Quintals</td>
+                <td>₹40000</td>
+            </tr>
+        </table>
+    </div>
+    <script>
+        function filterresult() {
+            let searchInput = document.getElementById("search-input").value.toLowerCase();
+            let category = document.getElementById("category-filter").value;
+            console.log("Search:", searchInput, "Category:", category);
+        }
+    </script>
+</body>
+</html>
